@@ -1,0 +1,26 @@
+version: '3.3'
+
+services:
+  joomla:
+    image: joomla:latest
+    restart: always
+    links:
+      - wordpressdb-ostrovskiy:mysql
+    ports:
+      - "8080:80"
+    environment:
+      JOOMLA_DB_HOST: wordpressdb-ostrovskiy:3306
+      JOOMLA_DB_USER: wordpress
+      JOOMLA_DB_PASSWORD: secret_24
+      JOOMLA_DB_NAME: wordpress
+
+  wordpressdb-ostrovskiy:
+    image: mariadb:latest
+    restart: always
+    volumes:
+      - "/opt/mysql_24:/var/lib/mysql"
+    environment:
+      MYSQL_ROOT_PASSWORD: secret_24
+      MYSQL_DATABASE: wordpress
+      MYSQL_USER: wordpress
+      MYSQL_PASSWORD: secret_24
